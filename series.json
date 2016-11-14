@@ -182,7 +182,7 @@
       "role": "Phillip J. Fry",
       "sortOrder": 3,
       "image": "",
-      "imageAuthor": null,
+      "imageAuthor": 0,
       "imageAdded": "",
       "lastUpdated": "2016-06-20 05:14:04"
     },
@@ -573,4 +573,4 @@
     }
   ]
 }
-}
+
