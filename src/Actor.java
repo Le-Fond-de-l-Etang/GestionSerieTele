@@ -13,7 +13,6 @@ public class Actor {
     private String name;
     private int id;
     private int serieid;
-    ///todo ajouter la series
 
     public  Actor(String p_image, Date p_lastUpdated, String p_role, int p_sortOrder, int p_imageAthor, Date p_imageAdded, String p_name, int p_id,int p_serie){
         this.image=p_image;
@@ -32,5 +31,12 @@ public class Actor {
 
     public int getId(){
        return this.id;
+    }
+
+    public int getSerieId(){
+        return this.serieid;
+    }
+    public String getName(){
+        return this.name;
     }
 }

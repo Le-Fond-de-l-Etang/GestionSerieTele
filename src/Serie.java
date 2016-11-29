@@ -38,8 +38,27 @@ public class Serie {
     public String toString(){
         return this.id+" "+seriesName+""+this.genre;
     }
+
     public int getId(){
         return this.id;
+    }
+
+    public String getName(){
+        return  this.seriesName;
+    }
+
+    public double getSiteRating(){
+        return this.siteRating;
+    }
+    public List<String> getGenre(){
+        return this.genre;
+    }
+    public boolean isInGenre(String search){
+        for(String str: genre) {
+            if(str.trim().contains(search))
+                return true;
+        }
+        return false;
     }
 
 
