@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="td_-_gestionserietele" default="all">
+  
+  
+  <property file="td_-_gestionserietele.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.swc"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.egg"/>
+    <include name="*.ane"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/access-bridge-64.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunmscapi.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.gradle:_junit:junit:4.11.classpath">
+    <pathelement location="C:/Users/hugo/.gradle/caches/modules-2/files-2.1/junit/junit/4.11/4e031bb61df09069aeb2bffb4019e7a5034a4ee0/junit-4.11.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath">
+    <pathelement location="C:/Users/hugo/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"/>
+  </path>
+  
+  
+  <!-- Application Server Libraries -->
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module series -->
+  
+  <dirname property="module.series.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.series" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.series" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.series" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.series" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="series.output.dir" value="${module.series.basedir}/classes/production/series"/>
+  <property name="series.testoutput.dir" value="${module.series.basedir}/classes/test/series"/>
+  
+  <path id="series.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="series.module.production.classpath">
+    <path refid="${module.jdk.classpath.series}"/>
+  </path>
+  
+  <path id="series.runtime.production.module.classpath">
+    <pathelement location="${series.output.dir}"/>
+  </path>
+  
+  <path id="series.module.classpath">
+    <path refid="${module.jdk.classpath.series}"/>
+    <pathelement location="${series.output.dir}"/>
+  </path>
+  
+  <path id="series.runtime.module.classpath">
+    <pathelement location="${series.testoutput.dir}"/>
+    <pathelement location="${series.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.series">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.series">
+    <patternset refid="excluded.from.module.series"/>
+  </patternset>
+  
+  
+  <target name="compile.module.series" depends="compile.module.series.production,compile.module.series.tests" description="Compile module series"/>
+  
+  <target name="compile.module.series.production" depends="register.custom.compilers" description="Compile module series; production classes"/>
+  
+  <target name="compile.module.series.tests" depends="register.custom.compilers,compile.module.series.production" description="compile module series; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.series" description="cleanup module">
+    <delete dir="${series.output.dir}"/>
+    <delete dir="${series.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module series_main -->
+  
+  <dirname property="module.series_main.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.series_main" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.series_main" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.series_main" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.series_main" value="-encoding UTF-8 -source 1.5 -target 1.5 ${compiler.args}"/>
+  
+  <property name="series_main.output.dir" value="${module.series_main.basedir}/series/build/classes/main"/>
+  <property name="series_main.testoutput.dir" value="${module.series_main.basedir}/series/build/classes/main"/>
+  
+  <path id="series_main.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="series_main.module.production.classpath">
+    <path refid="${module.jdk.classpath.series_main}"/>
+  </path>
+  
+  <path id="series_main.runtime.production.module.classpath">
+    <pathelement location="${series_main.output.dir}"/>
+  </path>
+  
+  <path id="series_main.module.classpath">
+    <path refid="${module.jdk.classpath.series_main}"/>
+    <pathelement location="${series_main.output.dir}"/>
+  </path>
+  
+  <path id="series_main.runtime.module.classpath">
+    <pathelement location="${series_main.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.series_main">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.series_main">
+    <patternset refid="excluded.from.module.series_main"/>
+  </patternset>
+  
+  
+  <target name="compile.module.series_main" depends="compile.module.series_main.production,compile.module.series_main.tests" description="Compile module series_main"/>
+  
+  <target name="compile.module.series_main.production" depends="register.custom.compilers" description="Compile module series_main; production classes"/>
+  
+  <target name="compile.module.series_main.tests" depends="register.custom.compilers,compile.module.series_main.production" description="compile module series_main; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.series_main" description="cleanup module">
+    <delete dir="${series_main.output.dir}"/>
+    <delete dir="${series_main.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module TD - GestionSerieTele -->
+  
+  <dirname property="module.td_-_gestionserietele.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.td_-_gestionserietele" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.td_-_gestionserietele" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.td_-_gestionserietele" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.td_-_gestionserietele" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="td_-_gestionserietele.output.dir" value="${module.td_-_gestionserietele.basedir}/bin"/>
+  <property name="td_-_gestionserietele.testoutput.dir" value="${module.td_-_gestionserietele.basedir}/bin"/>
+  
+  <path id="td_-_gestionserietele.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="td_-_gestionserietele.module.production.classpath">
+    <path refid="${module.jdk.classpath.td_-_gestionserietele}"/>
+    <pathelement location="${basedir}/org.json.jar"/>
+  </path>
+  
+  <path id="td_-_gestionserietele.runtime.production.module.classpath">
+    <pathelement location="${td_-_gestionserietele.output.dir}"/>
+    <pathelement location="${basedir}/org.json.jar"/>
+  </path>
+  
+  <path id="td_-_gestionserietele.module.classpath">
+    <pathelement location="${td_-_gestionserietele.output.dir}"/>
+    <path refid="${module.jdk.classpath.td_-_gestionserietele}"/>
+    <pathelement location="${basedir}/org.json.jar"/>
+  </path>
+  
+  <path id="td_-_gestionserietele.runtime.module.classpath">
+    <pathelement location="${td_-_gestionserietele.output.dir}"/>
+    <pathelement location="${basedir}/org.json.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.td_-_gestionserietele">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.td_-_gestionserietele">
+    <patternset refid="excluded.from.module.td_-_gestionserietele"/>
+  </patternset>
+  
+  <path id="td_-_gestionserietele.module.sourcepath">
+    <dirset dir="${module.td_-_gestionserietele.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.td_-_gestionserietele" depends="compile.module.td_-_gestionserietele.production,compile.module.td_-_gestionserietele.tests" description="Compile module TD - GestionSerieTele"/>
+  
+  <target name="compile.module.td_-_gestionserietele.production" depends="register.custom.compilers" description="Compile module TD - GestionSerieTele; production classes">
+    <mkdir dir="${td_-_gestionserietele.output.dir}"/>
+    <javac2 destdir="${td_-_gestionserietele.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.td_-_gestionserietele}/javac">
+      <compilerarg line="${compiler.args.td_-_gestionserietele}"/>
+      <bootclasspath refid="td_-_gestionserietele.module.bootclasspath"/>
+      <classpath refid="td_-_gestionserietele.module.production.classpath"/>
+      <src refid="td_-_gestionserietele.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.td_-_gestionserietele"/>
+    </javac2>
+    
+    <copy todir="${td_-_gestionserietele.output.dir}">
+      <fileset dir="${module.td_-_gestionserietele.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.td_-_gestionserietele.tests" depends="register.custom.compilers,compile.module.td_-_gestionserietele.production" description="compile module TD - GestionSerieTele; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.td_-_gestionserietele" description="cleanup module">
+    <delete dir="${td_-_gestionserietele.output.dir}"/>
+    <delete dir="${td_-_gestionserietele.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module series_test -->
+  
+  <dirname property="module.series_test.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.series_test" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.series_test" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.series_test" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.series_test" value="-encoding UTF-8 -source 1.5 -target 1.5 ${compiler.args}"/>
+  
+  <property name="series_test.output.dir" value="undefined"/>
+  <property name="series_test.testoutput.dir" value="${module.series_test.basedir}/series/build/classes/test"/>
+  
+  <path id="series_test.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="series_test.module.production.classpath">
+    <path refid="${module.jdk.classpath.series_test}"/>
+    <pathelement location="${series_main.output.dir}"/>
+    <path refid="library.gradle:_junit:junit:4.11.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+  </path>
+  
+  <path id="series_test.runtime.production.module.classpath">
+    <path refid="series_main.runtime.production.module.classpath"/>
+    <path refid="library.gradle:_junit:junit:4.11.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+  </path>
+  
+  <path id="series_test.module.classpath">
+    <path refid="${module.jdk.classpath.series_test}"/>
+    <pathelement location="${series_main.output.dir}"/>
+    <path refid="library.gradle:_junit:junit:4.11.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+  </path>
+  
+  <path id="series_test.runtime.module.classpath">
+    <pathelement location="${series_test.testoutput.dir}"/>
+    <path refid="series_main.runtime.module.classpath"/>
+    <path refid="library.gradle:_junit:junit:4.11.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.series_test">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.series_test">
+    <patternset refid="excluded.from.module.series_test"/>
+  </patternset>
+  
+  
+  <target name="compile.module.series_test" depends="compile.module.series_test.production,compile.module.series_test.tests" description="Compile module series_test"/>
+  
+  <target name="compile.module.series_test.production" depends="register.custom.compilers,compile.module.series_main" description="Compile module series_test; production classes"/>
+  
+  <target name="compile.module.series_test.tests" depends="register.custom.compilers,compile.module.series_test.production" description="compile module series_test; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.series_test" description="cleanup module">
+    <delete dir="${series_test.output.dir}"/>
+    <delete dir="${series_test.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.series, clean.module.series_main, clean.module.td_-_gestionserietele, clean.module.series_test" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.series, compile.module.series_main, compile.module.td_-_gestionserietele, compile.module.series_test" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>
