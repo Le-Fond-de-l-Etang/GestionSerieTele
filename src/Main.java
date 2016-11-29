@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import javax.print.DocFlavor;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.Arc2D;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.util.*;
@@ -15,7 +16,7 @@ public class Main {
 
 	/*private static Map<Integer,Actor> listActors = new HashMap<>();
 	private static Map<Integer,Serie> listSeries = new HashMap<>();*/
-	private static String functions[] = {"getOneActor","getActorByName","getActorBySerieId",};
+	private static String functions[] = {"Afficher un acteur avec son id","Afficher les acteurs par nom","afficher les acteurs par serie","Afficher les series par genre","Afficher les series par acteur","trier les serie par nom"};
 	private static int indexMenu=0;
 	private static List<Actor> listActors = new ArrayList<>();
 	private static List<Serie> listSeries = new ArrayList<>();
@@ -28,7 +29,7 @@ public class Main {
 		afficherFonction();
 
 		Scanner keyboard = new Scanner(System.in);
-		System.out.println("entrez un numero entre 0 et 2 ");
+		System.out.println("entrez un numero entre 1 et 7 ");
 		indexMenu = keyboard.nextInt();
 
 
@@ -58,6 +59,21 @@ public class Main {
 				s =keyboard.next();
 				getSerieByGenre(s);
 				break;
+			case 5:
+				System.out.println("Entrez un nom d'acteur");
+				s =keyboard.next();
+				getSerieByActorName(s);
+				break;
+			case 6:
+
+
+				sortSerieByName();
+				break;
+			case 7:
+
+
+				sortSerieByRating();
+				break;
 			default:
 				System.out.close();
 				break;
@@ -86,6 +102,11 @@ public class Main {
 				.sorted()
 				.forEach(System.out::println);
 	}
+	public static void getSerieByActorName(String name){
+		int id = listActors.stream().filter(s->s.getName().contains(name)).findFirst().get().getSerieId();
+
+		getseriebyid(id);
+	}
 	public static void getActorBySerieId(int serieId){
 		listActors
 				.stream()
@@ -113,14 +134,30 @@ public class Main {
 
 				.forEach(System.out::println);
 	}
+	public static void sortSerieByName(){
+		listSeries.sort(new Comparator<Serie>() {
+			@Override
+			public int compare(Serie o1, Serie o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
+		displayseries();
+
+	}
 	public static void sortSerieByRating(){
-		listSeries
-				.stream()
-				.map(s->s.getSiteRating())
+		listSeries.sort(new Comparator<Serie>() {
+			@Override
+			public int compare(Serie o1, Serie o2) {
+				return java.lang.Double.compare(o2.getSiteRating(),o1.getSiteRating());
+			}
+		});
+		displayseries();
 
-				.sorted()
-
-				.forEach(System.out::println);
+	}
+	public static void displayseries(){
+		for(int i=0;i<listSeries.size();i++){
+			System.out.println(listSeries.get(i));
+		}
 	}
 	public static void getSerieByGenre(String genre){
 
